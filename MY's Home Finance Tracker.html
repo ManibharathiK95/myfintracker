@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<!-- saved from url=(0214)file:///C:/Users/m.bharathi.AL-HAMAD/AppData/Local/Packages/5319275A.WhatsAppDesktop_cv1g1gvanyjgm/LocalState/sessions/72EA510C5D07B3F4F91E22A588A7FE0D48FA561A/transfers/2026-42/my's%20home%20finance%20tracker.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY's Home Finance Tracker</title>
+    <script src="./MY's Home Finance Tracker_files/chart.js.download"></script>
+    <style>
+        :root {
+            --bg-color: #f4f7f6;
+            --container-bg: #ffffff;
+            --text-color: #333333;
+            --heading-color: #2c3e50;
+            --tab-bg: #ecf0f1;
+            --tab-hover: #d0d6d9;
+            --input-bg: #ffffff;
+            --input-border: #ccc;
+            --table-border: #ddd;
+            --th-bg: #2c3e50;
+            --week-bg: #fafafa;
+            --notif-success-bg: #d4edda;
+            --notif-success-text: #155724;
+        }
+
+        body.dark-mode {
+            --bg-color: #121212;
+            --container-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+            --heading-color: #ffffff;
+            --tab-bg: #2c2c2c;
+            --tab-hover: #3a3a3a;
+            --input-bg: #333333;
+            --input-border: #555555;
+            --table-border: #444444;
+            --th-bg: #1a252f;
+            --week-bg: #252525;
+            --notif-success-bg: #1e3a2e;
+            --notif-success-text: #d4edda;
+        }
+
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); margin: 0; padding: 15px; color: var(--text-color); transition: background-color 0.3s; }
+        .container { max-width: 1100px; margin: auto; background: var(--container-bg); padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); position: relative; transition: background-color 0.3s; }
+        h1, h2, h3, h4 { color: var(--heading-color); margin-top: 0; margin-bottom: 10px; }
+        
+        .header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        #darkModeToggle { background: var(--tab-bg); color: var(--text-color); border: 1px solid var(--input-border); padding: 8px 12px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px; }
+        #darkModeToggle:hover { background: var(--tab-hover); }
+
+        .tabs { display: flex; border-bottom: 2px solid #007bff; margin-bottom: 15px; gap: 2px; flex-wrap: wrap; }
+        .tab { padding: 10px 15px; cursor: pointer; background: var(--tab-bg); color: var(--text-color); border: none; border-radius: 5px 5px 0 0; font-size: 14px; font-weight: bold; transition: 0.2s; }
+        .tab.active { background: #007bff; color: white; box-shadow: 0 -2px 5px rgba(0,0,0,0.1); }
+        .tab:hover:not(.active) { background: var(--tab-hover); }
+        
+        .content { display: none; }
+        .content.active { display: block; }
+        button { background: #3498db; color: white; border: none; padding: 8px 12px; cursor: pointer; border-radius: 4px; font-size: 13px; margin-top: 5px; font-weight: bold; }
+        button:hover { background: #2980b9; }
+        button.danger { background: #e74c3c; }
+        button.success { background: #2ecc71; }
+        button.warning { background: #f39c12; }
+        button.small { padding: 5px 8px; font-size: 12px; margin: 0; }
+        
+        .icon-btn { background: transparent; border: none; cursor: pointer; font-size: 16px; padding: 4px 6px; margin: 0 2px; border-radius: 4px; transition: 0.2s; }
+        .icon-btn.edit-btn { color: #f39c12; }
+        .icon-btn.edit-btn:hover { background: #fff3cd; }
+        .icon-btn.del-btn { color: #e74c3c; }
+        .icon-btn.del-btn:hover { background: #f8d7da; }
+
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid var(--table-border); padding: 8px; text-align: left; font-size: 13px; }
+        th { text-align: center; background: var(--th-bg); color: white; }
+        tr.filter-row th { text-align: center; background: var(--bg-color); padding: 5px; border-color: var(--input-border); }
+        tr.filter-row select { width: 100%; padding: 4px; border: 1px solid var(--input-border); border-radius: 3px; font-size: 12px; background: var(--input-bg); color: var(--text-color); }
+        
+        .text-center { text-align: center; }
+        .action-col { text-align: center; white-space: nowrap; }
+        .income { color: green; font-weight: bold; }
+        .expense { color: red; font-weight: bold; }
+        
+        input, select { padding: 6px; border: 1px solid var(--input-border); border-radius: 4px; margin-bottom: 5px; width: 100%; box-sizing: border-box; font-size: 13px; background: var(--input-bg); color: var(--text-color); }
+        input[readonly] { background-color: #e9ecef; cursor: not-allowed; }
+        body.dark-mode input[readonly] { background-color: #444; color: #aaa; }
+        
+        .form-row { display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+        .form-group { flex: 1; min-width: 120px; }
+        .form-group label { display: block; margin-bottom: 4px; font-weight: bold; font-size: 13px; }
+        
+        .balance-card { background: #e3f2fd; padding: 15px; border-radius: 8px; text-align: center; margin-bottom: 15px; border: 2px solid #007bff; }
+        body.dark-mode .balance-card { background: #1a252f; }
+        .balance-card h2 { color: var(--heading-color); margin: 0; }
+        
+        .week-section { border: 1px solid var(--input-border); padding: 15px; border-radius: 8px; margin-bottom: 15px; background: var(--week-bg); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .hidden { display: none; }
+        .notification { padding: 10px; background: var(--notif-success-bg); color: var(--notif-success-text); border: 1px solid var(--notif-success-text); border-radius: 4px; margin-top: 10px; display: none; font-weight: bold; font-size: 13px; }
+        .week-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .week-header h3 { margin: 0; display: flex; align-items: center; gap: 8px; font-size: 16px; }
+        .collapse-btn { background: #7f8c8d; color: white; border: none; padding: 4px 8px; border-radius: 3px; cursor: pointer; font-size: 12px; }
+        .table-wrap { overflow-x: auto; }
+        .chart-container { position: relative; height: 300px; width: 100%; margin-top: 15px; border: 1px solid var(--table-border); padding: 10px; border-radius: 8px; background: var(--container-bg); }
+        @media (max-width: 600px) { .form-group { min-width: 100%; } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-flex">
+        <h1>MY's Home Finance Tracker</h1>
+        <button id="darkModeToggle" onclick="toggleDarkMode()">🌙 Dark Mode</button>
+    </div>
+    
+    <div class="tabs">
+        <button class="tab" onclick="showTab('dashboard')">Dashboard</button>
+        <button class="tab active" onclick="showTab('weekly')">Weekly Entry</button>
+        <button class="tab" onclick="showTab('setup')">Starting Balance</button>
+        <button class="tab" onclick="showTab('charts')">Charts</button>
+        <button class="tab" onclick="showTab('export')">Export</button>
+    </div>
+
+    <!-- TAB: DASHBOARD -->
+    <div id="dashboard" class="content">
+        <h2>Dashboard</h2>
+        <div class="form-row">
+            <div class="form-group" style="max-width: 250px;">
+                <label>Select Month &amp; Year</label>
+                <input type="month" id="dashMonth" onchange="renderDashboard()">
+            </div>
+        </div>
+        <div class="balance-card">
+            <h3>Current Account Balance</h3>
+            <h1 id="liveBalance">AED 0.00</h1>
+            <div style="display:flex; justify-content:center; gap:15px; margin-top:5px; font-size: 14px;">
+                <span>Starting: <b id="dashStart">AED 0</b></span>
+                <span class="income">Income: <b id="dashIncome">AED 0</b></span>
+                <span class="expense">Expenses: <b id="dashExpense">AED 0</b></span>
+            </div>
+        </div>
+        <h3>Monthly Summary</h3>
+        <div class="table-wrap">
+            <table id="dashMainTable">
+                <tbody><tr><th>Type</th><th>Date</th><th>Category</th><th>Sub Category</th><th>Remarks</th><th>Amount</th></tr>
+                <tr class="filter-row">
+                    <th><select id="filter_type" onchange="renderDashboard()"><option value="">All</option></select></th>
+                    <th><select id="filter_date" onchange="renderDashboard()"><option value="">All</option></select></th>
+                    <th><select id="filter_cat" onchange="renderDashboard()"><option value="">All</option></select></th>
+                    <th><select id="filter_subcat" onchange="renderDashboard()"><option value="">All</option></select></th>
+                    <th><select id="filter_remarks" onchange="renderDashboard()"><option value="">All</option></select></th>
+                    <th><button class="danger small" onclick="resetFilters()">Reset Filters</button></th>
+                </tr>
+                </tbody><tbody id="dashTable"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- TAB: WEEKLY ENTRY -->
+    <div id="weekly" class="content active">
+        <h2>Weekly Entry</h2>
+        <div class="form-row">
+            <div class="form-group" style="max-width: 250px;">
+                <label>Select Month &amp; Year</label>
+                <input type="month" id="weeklyMonth" onchange="renderWeeks()">
+            </div>
+        </div>
+        <button onclick="addWeek()" class="success">+ Add Week</button>
+        <div id="weeksContainer"></div>
+    </div>
+
+    <!-- TAB: STARTING BALANCE -->
+    <div id="setup" class="content">
+        <h2>Monthly Starting Balance</h2>
+        <p>Select the month and enter your account balance before Day 1 of that month.</p>
+        <div class="form-row">
+            <div class="form-group" style="max-width: 250px;">
+                <label>Select Month &amp; Year</label>
+                <input type="month" id="setupMonth" onchange="checkSetupFreeze()">
+            </div>
+            <div class="form-group" style="max-width: 250px;">
+                <label>Available Balance (AED)</label>
+                <input type="number" id="setupBalance" placeholder="e.g., 5000">
+            </div>
+        </div>
+        <button onclick="saveSetup()">Save</button>
+        <div id="setupNotification" class="notification">Saved successfully! Redirecting...</div>
+    </div>
+
+    <!-- TAB: CHARTS -->
+    <div id="charts" class="content">
+        <h2>Charts</h2>
+        
+        <div class="week-section">
+            <h3>Monthly Overview (Week-wise)</h3>
+            <div class="form-row">
+                <div class="form-group" style="max-width: 250px;">
+                    <label>Select Month &amp; Year</label>
+                    <input type="month" id="chartMonth" onchange="renderMonthlyChart()">
+                </div>
+            </div>
+            <div class="chart-container"><canvas id="monthlyChart"></canvas></div>
+        </div>
+
+        <div class="week-section">
+            <h3>Custom Deep-Dive (Bar Chart)</h3>
+            <div class="form-row">
+                <div class="form-group"><label>Type</label><select id="c_type"><option value="">All</option><option value="Income">Income</option><option value="Expense">Expense</option></select></div>
+                <div class="form-group"><label>Category</label><select id="c_cat"><option value="">All</option><option value="Salary">Salary</option><option value="Loan">Loan</option><option value="Rent">Rent</option><option value="Groceries">Groceries</option><option value="SEWA">SEWA</option><option value="DU">DU</option><option value="Home">Home</option><option value="Thulir">Thulir</option><option value="Bank charges">Bank charges</option><option value="Others">Others</option></select></div>
+                <div class="form-group"><label>Sub-Category</label><select id="c_subcat"><option value="">All</option><option value="Safari">Safari</option><option value="Almadina">Almadina</option><option value="Nesto">Nesto</option><option value="DayToday">DayToday</option><option value="Others">Others</option></select></div>
+                <div class="form-group"><label>Remarks Contains</label><input type="text" id="c_remarks" placeholder="Search text..."></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label>From Date</label><input type="date" id="c_fromDate"></div>
+                <div class="form-group"><label>To Date</label><input type="date" id="c_toDate"></div>
+                <div class="form-group" style="display:flex; align-items:flex-end;"><button onclick="renderCustomChart()" style="width:100%;">Generate Chart</button></div>
+            </div>
+            <div class="chart-container"><canvas id="customChart"></canvas></div>
+        </div>
+    </div>
+
+    <!-- TAB: EXPORT -->
+    <div id="export" class="content">
+        <h2>Export to Excel</h2>
+        <p>Generate an Excel file for the entire month's income and expenses, including starting balance and totals.</p>
+        <div class="form-row">
+            <div class="form-group" style="max-width: 250px;">
+                <label>Select Month &amp; Year</label>
+                <input type="month" id="exportMonth">
+            </div>
+        </div>
+        <button onclick="exportToExcel()" class="success">Download Excel File</button>
+    </div>
+</div>
+
+<script>
+    let data = JSON.parse(localStorage.getItem('bankData')) || {};
+    if (!data.setups) data.setups = {};
+    if (!Array.isArray(data.weeks)) data.weeks = [];
+    let editingTransactionId = null;
+    let monthlyChartInstance = null;
+    let customChartInstance = null;
+
+    // --- DARK MODE ---
+    function applyDarkMode() {
+        const isDark = localStorage.getItem('darkMode') === 'true';
+        document.body.classList.toggle('dark-mode', isDark);
+        document.getElementById('darkModeToggle').innerText = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+    }
+    function toggleDarkMode() {
+        localStorage.setItem('darkMode', document.body.classList.toggle('dark-mode') ? 'true' : 'false');
+        applyDarkMode();
+    }
+
+    // --- DATA MIGRATION & SAFETY ---
+    data.weeks.forEach(w => {
+        if(!w.transactions) w.transactions = [];
+        if(!w.startDate) w.startDate = w.month ? w.month + '-01' : '';
+        if(!w.endDate) w.endDate = w.month ? w.month + '-07' : '';
+        w.transactions.forEach(t => {
+            if(!t.dateRaw && t.date) {
+                const parts = t.date.split('/');
+                if(parts.length === 3) t.dateRaw = `${parts[2]}-${parts[1]}-${parts[0]}`;
+                else t.dateRaw = '';
+            }
+            if(!t.subcategory) t.subcategory = '-';
+            if(!t.category) t.category = 'Others';
+            if(!t.type) t.type = 'Expense';
+            if(typeof t.amount !== 'number') t.amount = parseFloat(t.amount) || 0;
+        });
+    });
+    saveData(); 
+
+    function saveData() { 
+        try { localStorage.setItem('bankData', JSON.stringify(data)); } catch(e) { console.error("Storage error", e); } 
+    }
+
+    function showTab(tabId) {
+        document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        
+        if(tabId === 'weekly') renderWeeks();
+        if(tabId === 'dashboard') {
+            let dashMonthInput = document.getElementById('dashMonth');
+            if(!dashMonthInput.value) {
+                let weeklyMonthVal = document.getElementById('weeklyMonth').value;
+                if(weeklyMonthVal) dashMonthInput.value = weeklyMonthVal;
+                else {
+                    let d = new Date();
+                    dashMonthInput.value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+                }
+            }
+            renderDashboard();
+        }
+        if(tabId === 'setup') checkSetupFreeze();
+        if(tabId === 'export') {
+            let exportMonthInput = document.getElementById('exportMonth');
+            if(!exportMonthInput.value) {
+                let weeklyMonthVal = document.getElementById('weeklyMonth').value;
+                if(weeklyMonthVal) exportMonthInput.value = weeklyMonthVal;
+                else {
+                    let d = new Date();
+                    exportMonthInput.value = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+                }
+            }
+        }
+        if(tabId === 'charts') renderMonthlyChart();
+    }
+
+    // --- SETUP LOGIC ---
+    function checkSetupFreeze() {
+        const month = document.getElementById('setupMonth').value;
+        const balInput = document.getElementById('setupBalance');
+        const notif = document.getElementById('setupNotification');
+        notif.style.display = 'none';
+        
+        if(month && data.setups[month] !== undefined) {
+            balInput.value = data.setups[month];
+            balInput.readOnly = true;
+        } else {
+            balInput.value = '';
+            balInput.readOnly = false;
+        }
+    }
+
+    function saveSetup() {
+        const month = document.getElementById('setupMonth').value;
+        const balanceStr = document.getElementById('setupBalance').value;
+        const notif = document.getElementById('setupNotification');
+        
+        if(!month || !balanceStr) {
+            notif.innerText = 'Please select month and enter balance!';
+            notif.style.background = '#f8d7da'; notif.style.color = '#721c24';
+            notif.style.display = 'block'; return;
+        }
+        
+        data.setups[month] = parseFloat(balanceStr);
+        saveData();
+        
+        notif.innerText = 'Saved successfully! Redirecting...';
+        notif.style.background = 'var(--notif-success-bg)'; notif.style.color = 'var(--notif-success-text)';
+        notif.style.display = 'block';
+        
+        document.getElementById('setupBalance').readOnly = true;
+        
+        setTimeout(() => {
+            showTab('weekly');
+            document.getElementById('weeklyMonth').value = month;
+            renderWeeks();
+        }, 1000);
+    }
+
+    // --- WEEKLY LOGIC ---
+    function renderWeeks() {
+        const container = document.getElementById('weeksContainer');
+        const month = document.getElementById('weeklyMonth').value;
+        if(!month) return;
+
+        const monthWeeks = data.weeks.filter(w => w.month === month);
+        if(monthWeeks.length === 0) {
+            container.innerHTML = '<p style="color:#666; margin-top:10px;">No weeks added yet. Click "+ Add Week" to start.</p>';
+            return;
+        }
+
+        let finalHtml = '';
+        monthWeeks.forEach((week, wIndex) => {
+            finalHtml += `
+                <div class="week-section" id="week_box_${week.id}">
+                    <div class="week-header">
+                        <h3><button class="collapse-btn" onclick="toggleCollapse('${week.id}')">▼</button> Week ${wIndex + 1}</h3>
+                        <button class="danger small" onclick="deleteWeek('${week.id}')">Delete Week</button>
+                    </div>
+                    <div id="week_body_${week.id}">
+                        <div class="form-row">
+                            <div class="form-group"><label>From Date</label><input type="date" value="${week.startDate}" onchange="updateWeekDate('${week.id}', 'start', this.value)"></div>
+                            <div class="form-group"><label>To Date</label><input type="date" value="${week.endDate}" onchange="updateWeekDate('${week.id}', 'end', this.value)"></div>
+                        </div>
+                        <h4>Add New Transaction</h4>
+                        <div class="form-row">
+                            <div class="form-group"><label>Date</label><input type="date" id="date_${week.id}"></div>
+                            <div class="form-group">
+                                <label>Type</label>
+                                <select id="type_${week.id}" onchange="toggleCategories('${week.id}', this.value)"><option value="Income">Income</option><option value="Expense">Expense</option></select>
+                            </div>
+                            <div class="form-group"><label>Category</label><select id="cat_${week.id}" onchange="toggleSubcategories('${week.id}', this.value)"></select></div>
+                            <div class="form-group hidden" id="subcat_wrap_${week.id}">
+                                <label>Sub-Category</label>
+                                <select id="subcat_${week.id}"><option value="Safari">Safari</option><option value="Almadina">Almadina</option><option value="Nesto">Nesto</option><option value="DayToday">DayToday</option><option value="Others">Others</option></select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group"><label>Amount (AED)</label><input type="number" id="amount_${week.id}" placeholder="e.g., 150"></div>
+                            <div class="form-group"><label>Remarks</label><input type="text" id="remarks_${week.id}" placeholder="Optional remarks"></div>
+                            <div class="form-group" style="flex: 0.3; display: flex; align-items: flex-end;">
+                                <button class="success" id="addBtn_${week.id}" onclick="addOrUpdateTransaction('${week.id}')" style="width:100%; margin:0;">Add Entry</button>
+                            </div>
+                        </div>
+                        <div class="table-wrap">
+                            <table>
+                                <tr><th>Date</th><th>Type</th><th>Category</th><th>Sub-Cat</th><th>Remarks</th><th>Amount</th><th>Actions</th></tr>
+                                <tbody id="trans_${week.id}"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = finalHtml; 
+
+        monthWeeks.forEach(week => {
+            toggleCategories(week.id, 'Income');
+            renderTransactions(week.id);
+        });
+    }
+
+    function toggleCollapse(weekId) {
+        const body = document.getElementById('week_body_' + weekId);
+        const btn = document.querySelector(`#week_box_${weekId} .collapse-btn`);
+        if(body.classList.contains('hidden')) { body.classList.remove('hidden'); btn.innerText = '▼'; }
+        else { body.classList.add('hidden'); btn.innerText = '►'; }
+    }
+
+    function addWeek() {
+        const month = document.getElementById('weeklyMonth').value;
+        if(!month) { alert('Please select a Month & Year first.'); return; }
+        data.weeks.push({ id: 'w_' + Date.now(), month: month, startDate: month + '-01', endDate: month + '-07', transactions: [] });
+        saveData(); renderWeeks();
+    }
+
+    function deleteWeek(id) {
+        if(!confirm('Delete this entire week?')) return;
+        data.weeks = data.weeks.filter(w => w.id !== id);
+        saveData(); renderWeeks();
+    }
+
+    function updateWeekDate(id, type, value) {
+        let week = data.weeks.find(w => w.id === id);
+        if(week) { if(type === 'start') week.startDate = value; if(type === 'end') week.endDate = value; saveData(); }
+    }
+
+    function toggleCategories(id, type) {
+        const catSelect = document.getElementById('cat_' + id);
+        if(!catSelect) return;
+        let options = '';
+        if(type === 'Income') {
+            options = '<option value="Salary">Salary</option><option value="Loan">Loan</option><option value="Thulir">Thulir</option><option value="Bank charges">Bank charges</option><option value="Others">Others</option>';
+        } else {
+            options = '<option value="Rent">Rent</option><option value="Groceries">Groceries</option><option value="SEWA">SEWA</option><option value="DU">DU</option><option value="Home">Home</option><option value="Thulir">Thulir</option><option value="Bank charges">Bank charges</option><option value="Others">Others</option>';
+        }
+        catSelect.innerHTML = options;
+        toggleSubcategories(id, catSelect.value);
+    }
+
+    function toggleSubcategories(id, category) {
+        const subWrap = document.getElementById('subcat_wrap_' + id);
+        if(!subWrap) return;
+        if(category === 'Groceries') subWrap.classList.remove('hidden');
+        else subWrap.classList.add('hidden');
+    }
+
+    function addOrUpdateTransaction(weekId) {
+        const dateVal = document.getElementById('date_' + weekId).value;
+        const type = document.getElementById('type_' + weekId).value;
+        const cat = document.getElementById('cat_' + weekId).value;
+        const subcat = document.getElementById('subcat_' + weekId).value;
+        const amountStr = document.getElementById('amount_' + weekId).value;
+        const remarks = document.getElementById('remarks_' + weekId).value;
+
+        if(!dateVal || !amountStr) { 
+            alert('Error: Please select Date and enter Amount'); 
+            return; 
+        }
+        
+        const amount = parseFloat(amountStr);
+        const parts = dateVal.split('-');
+        const formattedDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
+
+        let week = data.weeks.find(w => w.id === weekId);
+        if(!week) return alert("Error: Week not found!");
+
+        if(editingTransactionId) {
+            let t = week.transactions.find(t => t.id === editingTransactionId);
+            if(t) {
+                t.date = formattedDate; t.dateRaw = dateVal; t.type = type; t.category = cat;
+                t.subcategory = (cat === 'Groceries') ? subcat : '-'; t.amount = amount; t.remarks = remarks;
+            }
+            editingTransactionId = null;
+            const btn = document.getElementById('addBtn_' + weekId);
+            btn.innerText = 'Add Entry'; btn.classList.remove('warning'); btn.classList.add('success');
+        } else {
+            week.transactions.push({
+                id: 't_' + Date.now(), date: formattedDate, dateRaw: dateVal, type: type, category: cat,
+                subcategory: (cat === 'Groceries') ? subcat : '-', amount: amount, remarks: remarks
+            });
+        }
+
+        saveData();
+        
+        document.getElementById('date_' + weekId).value = '';
+        document.getElementById('amount_' + weekId).value = '';
+        document.getElementById('remarks_' + weekId).value = '';
+        
+        renderTransactions(weekId);
+    }
+
+    function editTransaction(weekId, transId) {
+        let week = data.weeks.find(w => w.id === weekId);
+        let t = week.transactions.find(t => t.id === transId);
+        
+        document.getElementById('date_' + weekId).value = t.dateRaw;
+        document.getElementById('type_' + weekId).value = t.type;
+        toggleCategories(weekId, t.type);
+        document.getElementById('cat_' + weekId).value = t.category;
+        toggleSubcategories(weekId, t.category);
+        if(t.category === 'Groceries') document.getElementById('subcat_' + weekId).value = t.subcategory;
+        document.getElementById('amount_' + weekId).value = t.amount;
+        document.getElementById('remarks_' + weekId).value = t.remarks;
+
+        editingTransactionId = transId;
+        const btn = document.getElementById('addBtn_' + weekId);
+        btn.innerText = 'Update Entry'; btn.classList.remove('success'); btn.classList.add('warning');
+        document.getElementById('week_box_' + weekId).scrollIntoView({behavior: 'smooth'});
+    }
+
+    function deleteTransaction(weekId, transId) {
+        let week = data.weeks.find(w => w.id === weekId);
+        week.transactions = week.transactions.filter(t => t.id !== transId);
+        saveData(); renderTransactions(weekId);
+    }
+
+    function renderTransactions(weekId) {
+        let week = data.weeks.find(w => w.id === weekId);
+        const tbody = document.getElementById('trans_' + weekId);
+        if(!tbody || !week) return;
+        tbody.innerHTML = '';
+        
+        week.transactions.sort((a, b) => {
+            const dateA = a.dateRaw || '';
+            const dateB = b.dateRaw || '';
+            return dateA.localeCompare(dateB);
+        });
+
+        week.transactions.forEach(t => {
+            tbody.innerHTML += `
+                <tr>
+                    <td class="text-center">${t.date}</td>
+                    <td>${t.type}</td>
+                    <td>${t.category}</td>
+                    <td>${t.subcategory}</td>
+                    <td>${t.remarks}</td>
+                    <td class="${t.type === 'Income' ? 'income' : 'expense'}">${t.type === 'Expense' ? '-' : '+'} ${t.amount.toFixed(2)}</td>
+                    <td class="action-col">
+                        <button class="icon-btn edit-btn" title="Edit" onclick="editTransaction('${weekId}', '${t.id}')">✏️</button>
+                        <button class="icon-btn del-btn" title="Delete" onclick="deleteTransaction('${weekId}', '${t.id}')">🗑️</button>
+                    </td>
+                </tr>
+            `;
+        });
+    }
+
+    // --- DASHBOARD LOGIC ---
+    function populateFilterDropdowns(allTrans) {
+        const cols = [
+            { key: 'type', id: 'type' },
+            { key: 'date', id: 'date' },
+            { key: 'category', id: 'cat' },
+            { key: 'subcategory', id: 'subcat' },
+            { key: 'remarks', id: 'remarks' }
+        ];
+        
+        cols.forEach(item => {
+            const select = document.getElementById('filter_' + item.id);
+            if (!select) return;
+            
+            const currentVal = select.value;
+            let uniqueVals = [...new Set(allTrans.map(t => {
+                let val = t[item.key];
+                if(val === null || val === undefined || val === '') return '(Blank)';
+                return val;
+            }))];
+            
+            uniqueVals.sort();
+            select.innerHTML = '<option value="">All</option>' + uniqueVals.map(v => `<option value="${v}">${v}</option>`).join('');
+            
+            if(uniqueVals.includes(currentVal)) select.value = currentVal;
+            else select.value = ""; 
+        });
+    }
+
+    function resetFilters() {
+        document.getElementById('filter_type').value = "";
+        document.getElementById('filter_date').value = "";
+        document.getElementById('filter_cat').value = "";
+        document.getElementById('filter_subcat').value = "";
+        document.getElementById('filter_remarks').value = "";
+        renderDashboard();
+    }
+
+    function renderDashboard() {
+        const month = document.getElementById('dashMonth').value;
+        if(!month) return;
+
+        const startBal = data.setups[month] || 0;
+        let income = 0, expense = 0;
+        let allTrans = [];
+        
+        data.weeks.forEach(w => {
+            if(w.month === month) {
+                w.transactions.forEach(t => allTrans.push(t));
+            }
+        });
+
+        populateFilterDropdowns(allTrans);
+
+        let filteredTrans = allTrans.filter(t => {
+            const fType = document.getElementById('filter_type').value;
+            const fDate = document.getElementById('filter_date').value;
+            const fCat = document.getElementById('filter_cat').value;
+            const fSubcat = document.getElementById('filter_subcat').value;
+            const fRemarks = document.getElementById('filter_remarks').value;
+
+            let tType = t.type || '(Blank)';
+            let tDate = t.date || '(Blank)';
+            let tCat = t.category || '(Blank)';
+            let tSubcat = t.subcategory || '(Blank)';
+            let tRemarks = t.remarks || '(Blank)';
+
+            if(fType && tType !== fType) return false;
+            if(fDate && tDate !== fDate) return false;
+            if(fCat && tCat !== fCat) return false;
+            if(fSubcat && tSubcat !== fSubcat) return false;
+            if(fRemarks && tRemarks !== fRemarks) return false;
+            return true;
+        });
+
+        filteredTrans.sort((a, b) => {
+            const dateA = a.dateRaw || '';
+            const dateB = b.dateRaw || '';
+            return dateA.localeCompare(dateB);
+        });
+
+        const table = document.getElementById('dashTable');
+        table.innerHTML = '';
+
+        if (filteredTrans.length === 0) {
+            table.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#7f8c8d; padding:20px;">No transactions found for this month. Make sure you added them to a week in this exact month.</td></tr>`;
+        } else {
+            filteredTrans.forEach(t => {
+                if(t.type === 'Income') income += t.amount; else expense += t.amount;
+                table.innerHTML += `<tr><td>${t.type}</td><td class="text-center">${t.date}</td><td>${t.category}</td><td>${t.subcategory}</td><td>${t.remarks}</td><td class="${t.type === 'Income' ? 'income' : 'expense'}">${t.type === 'Expense' ? '-' : '+'} ${t.amount.toFixed(2)} AED</td></tr>`;
+            });
+        }
+
+        const liveBal = startBal + income - expense;
+        document.getElementById('dashStart').innerText = `AED ${startBal.toFixed(2)}`;
+        document.getElementById('dashIncome').innerText = `AED ${income.toFixed(2)}`;
+        document.getElementById('dashExpense').innerText = `AED ${expense.toFixed(2)}`;
+        document.getElementById('liveBalance').innerText = `AED ${liveBal.toFixed(2)}`;
+    }
+
+    // --- EXPORT TO EXCEL LOGIC ---
+    function exportToExcel() {
+        const month = document.getElementById('exportMonth').value;
+        if(!month) { alert('Please select a month to export.'); return; }
+
+        const startBal = data.setups[month] || 0;
+        let income = 0, expense = 0;
+        let allTrans = [];
+        
+        data.weeks.forEach(w => {
+            if(w.month === month) {
+                w.transactions.forEach(t => allTrans.push(t));
+            }
+        });
+
+        allTrans.sort((a, b) => {
+            const dateA = a.dateRaw || '';
+            const dateB = b.dateRaw || '';
+            return dateA.localeCompare(dateB);
+        });
+
+        let html = `<table border="1">`;
+        html += `<tr><td colspan="6" style="font-weight:bold; font-size:16px; text-align:center;">MY's Home Finance Tracker - ${month}</td></tr>`;
+        html += `<tr><td colspan="6" style="font-weight:bold;">Starting Balance: AED ${startBal.toFixed(2)}</td></tr>`;
+        html += `<tr></tr>`; // empty row
+        html += `<tr style="font-weight:bold; background-color:#2c3e50; color:white;"><td>Type</td><td>Date</td><td>Category</td><td>Sub Category</td><td>Remarks</td><td>Amount (AED)</td></tr>`;
+
+        allTrans.forEach(t => {
+            if(t.type === 'Income') income += t.amount; else expense += t.amount;
+            html += `<tr><td>${t.type}</td><td>${t.date}</td><td>${t.category}</td><td>${t.subcategory}</td><td>${t.remarks}</td><td style="color:${t.type === 'Income' ? 'green' : 'red'}; font-weight:bold;">${t.type === 'Expense' ? '-' : '+'} ${t.amount.toFixed(2)}</td></tr>`;
+        });
+
+        const liveBal = startBal + income - expense;
+        
+        html += `<tr></tr>`; // empty row
+        html += `<tr><td colspan="5" style="font-weight:bold; color:green; text-align:right;">Total Income:</td><td style="font-weight:bold; color:green;">AED ${income.toFixed(2)}</td></tr>`;
+        html += `<tr><td colspan="5" style="font-weight:bold; color:red; text-align:right;">Total Expense:</td><td style="font-weight:bold; color:red;">AED ${expense.toFixed(2)}</td></tr>`;
+        html += `<tr><td colspan="5" style="font-weight:bold; text-align:right;">Ending Balance:</td><td style="font-weight:bold;">AED ${liveBal.toFixed(2)}</td></tr>`;
+        html += `</table>`;
+
+        const blob = new Blob(['\ufeff' + html], { type: 'application/vnd.ms-excel' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `Finance_Tracker_${month}.xls`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    // --- CHARTS LOGIC ---
+    function renderMonthlyChart() {
+        const month = document.getElementById('chartMonth').value;
+        if(!month) return;
+        const weeks = data.weeks.filter(w => w.month === month);
+        let labels = [], incomeData = [], expenseData = [];
+
+        weeks.forEach((w, i) => {
+            let inc = 0, exp = 0;
+            w.transactions.forEach(t => { if(t.type === 'Income') inc += t.amount; else exp += t.amount; });
+            labels.push(`W${i+1} (${w.startDate.substring(8)}-${w.endDate.substring(8)})`);
+            incomeData.push(inc);
+            expenseData.push(exp);
+        });
+
+        if(monthlyChartInstance) monthlyChartInstance.destroy();
+        const ctx = document.getElementById('monthlyChart').getContext('2d');
+        monthlyChartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: { labels: labels, datasets: [
+                { label: 'Income', data: incomeData, backgroundColor: 'rgba(46, 204, 113, 0.7)', borderColor: 'green', borderWidth: 1 },
+                { label: 'Expense', data: expenseData, backgroundColor: 'rgba(231, 76, 60, 0.7)', borderColor: 'red', borderWidth: 1 }
+            ]},
+            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+        });
+    }
+
+    function renderCustomChart() {
+        const type = document.getElementById('c_type').value;
+        const cat = document.getElementById('c_cat').value;
+        const subcat = document.getElementById('c_subcat').value;
+        const remarks = document.getElementById('c_remarks').value.toLowerCase();
+        const fromDate = document.getElementById('c_fromDate').value;
+        const toDate = document.getElementById('c_toDate').value;
+
+        let filtered = [];
+        data.weeks.forEach(w => {
+            w.transactions.forEach(t => {
+                const tDateRaw = t.dateRaw || '';
+                if(type && t.type !== type) return;
+                if(cat && t.category !== cat) return;
+                if(subcat && t.subcategory !== subcat) return;
+                if(remarks && !t.remarks.toLowerCase().includes(remarks)) return;
+                if(fromDate && tDateRaw < fromDate) return;
+                if(toDate && tDateRaw > toDate) return;
+                filtered.push(t);
+            });
+        });
+
+        let groupBy = cat ? 'date' : 'category';
+        let groupedData = {};
+        filtered.forEach(t => {
+            let key = t[groupBy] || 'Unknown';
+            groupedData[key] = (groupedData[key] || 0) + t.amount;
+        });
+
+        let labels = Object.keys(groupedData);
+        let amounts = Object.values(groupedData);
+
+        if(customChartInstance) customChartInstance.destroy();
+        const ctx = document.getElementById('customChart').getContext('2d');
+        customChartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: { labels: labels, datasets: [{ label: 'Amount (AED)', data: amounts, backgroundColor: 'rgba(52, 152, 219, 0.7)', borderColor: '#2980b9', borderWidth: 1 }] },
+            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+        });
+    }
+
+    // --- INIT ---
+    applyDarkMode();
+</script>
+
+</body></html>
